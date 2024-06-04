@@ -31,3 +31,13 @@ jobs:
     - name: Compile to exe
       run: |
         pyinstaller update-pc-script.py
+    - name: Set artifact path
+      run: |
+        mkdir artifact
+        cp dist/update-pc-script/update-pc-script.exe artifact/update-pc-script.exe
+        echo "artifactPath=artifact/update-pc-script.exe" >> $GITHUB_ENV
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: update-pc-script-${{ github.run_number }}.exe
+        path: ${{ env.artifactPath }} # this will resolve to testing/file.txt at runtime
