@@ -30,12 +30,12 @@ jobs:
         pip install --upgrade pyinstaller
     - name: Compile to exe
       run: |
-        pyinstaller update-pc-script.py
+        pyinstaller --onefile update-pc-script.py
     - name: Set artifact path
       run: |
         mkdir artifact
-        cp dist/update-pc-script/update-pc-script artifact/update-pc-script.exe
-        echo "artifactPath=artifact/update-pc-script.exe" >> $GITHUB_ENV
+        cp dist/update-pc-script/update-pc-script artifact/update-pc-script
+        echo "artifactPath=artifact/update-pc-script" >> $GITHUB_ENV
 
     - uses: actions/upload-artifact@v4
       with:
