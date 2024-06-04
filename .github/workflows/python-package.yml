@@ -34,7 +34,7 @@ jobs:
     - name: Set artifact path
       run: |
         mkdir artifact
-        cp dist/update-pc-script/update-pc-script.exe artifact/update-pc-script
+        cp dist/update-pc-script/update-pc-script artifact/update-pc-script.exe
         echo "artifactPath=artifact/update-pc-script.exe" >> $GITHUB_ENV
 
     - uses: actions/upload-artifact@v4
