@@ -33,11 +33,9 @@ jobs:
         pyinstaller --onefile update-pc-script.py
     - name: Set artifact path
       run: |
-        mkdir artifact
-        cp dist/update-pc-script/update-pc-script artifact/update-pc-script
-        echo "artifactPath=artifact/update-pc-script" >> $GITHUB_ENV
+        echo "artifactPath=dist/update-pc-script/update-pc-script" >> $GITHUB_ENV
 
     - uses: actions/upload-artifact@v4
       with:
-        name: update-pc-script-${{ github.run_number }}.exe
+        name: update-pc-script-${{ github.run_number }}
         path: ${{ env.artifactPath }} # this will resolve to testing/file.txt at runtime
