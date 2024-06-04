@@ -31,6 +31,7 @@ jobs:
     - name: Compile to exe
       run: |
         pyinstaller update-pc-script.py
+        ls -la
     - name: Set artifact path
       run: |
         mkdir artifact
