@@ -31,10 +31,6 @@ jobs:
     - name: Compile to exe
       run: |
         pyinstaller update-pc-script.py
-        ls -la
-    - name: Set artifact path
-      run: |
-        mkdir artifact
         cp dist/update-pc-script/update-pc-script.exe artifact/update-pc-script.exe
         echo "artifactPath=artifact/update-pc-script.exe" >> $GITHUB_ENV
 
