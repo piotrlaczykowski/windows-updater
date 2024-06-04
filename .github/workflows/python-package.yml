@@ -35,4 +35,5 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: update-pc-script-${{ github.run_number }}
-        path: dist/update-pc-script.exe # this will resolve to testing/file.txt at runtime
+        path: dist/update-pc-script.exe
+        compression-level: 0 # no compression
