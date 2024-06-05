@@ -54,7 +54,7 @@ def upgrade_choco_packages():
         print(f"Error upgrading Chocolatey packages: {e}")
 
 
-def launch_dell_supportassist():
+def launch_dell_support_assist():
     try:
         ps_command = (
             "Get-AppxPackage | Where-Object {$_.Name -like 'DellSupportAssist'} | "
@@ -68,7 +68,7 @@ def launch_dell_supportassist():
         print(f"Error launching the UWP app: {e}")
 
 # Check if Dell SupportAssist is already installed
-def is_supportassist_installed():
+def is_support_assist_installed():
     try:
         with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Dell\SupportAssistAgent", 0, winreg.KEY_READ) as key:
             return True
@@ -84,3 +84,13 @@ def download_installer(url, user_download_folder, installer_path):
         with open(installer_path, 'wb') as installer_file:
             for chunk in response.iter_content(chunk_size=1024):
                 installer_file.write(chunk)
+
+def install_program(installer_path):
+    if os.path.exists(installer_path):
+        try:
+            subprocess.run([installer_path], check=True)
+            print("Dell SupportAssist installed successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error installing Dell SupportAssist: {e}")
+    else:
+        print("Error: Installer not found.")

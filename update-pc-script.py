@@ -20,26 +20,19 @@ if __name__ == "__main__":
             update_choice = display_update_menu()
             # Update Dell SupportAssist
             print(mobo_manufacturer)
-            if "Dell" in mobo_manufacturer and (update_choice == 1 or update_choice == 5) and is_supportassist_installed():
-                launch_dell_supportassist()
+            if "Dell" in mobo_manufacturer and (update_choice == 1 or update_choice == 5) and is_support_assist_installed():
+                launch_dell_support_assist()
                 # Download the installer
-                if not is_supportassist_installed():
+                if not is_support_assist_installed():
                     download_installer(url=support_assist_download_url, user_download_folder=user_download_folder,installer_path=support_assist_installer_path)
                     # Install Dell SupportAssist
-                    if os.path.exists(support_assist_installer_path):
-                        try:
-                            subprocess.run([support_assist_installer_path], check=True)
-                            print("Dell SupportAssist installed successfully.")
-                        except subprocess.CalledProcessError as e:
-                            print(f"Error installing Dell SupportAssist: {e}")
-                    else:
-                        print("Error: Installer not found.")
+                    install_program(support_assist_installer_path)
             # Update Winget
             # Check if the user needs to accept terms for using winget
             if update_choice == 2 or update_choice == 5:
                 # Upgrade all installed packages using winget
                 try:
-                    subprocess.run(["winget", "upgrade", "--all", "--accept-source-agreements"], check=True,)
+                    subprocess.run(["winget", "upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "-u", " --allow-reboot"], check=True,)
                     print("All installed packages upgraded successfully.")
                 except subprocess.CalledProcessError as e:
                     print(f"Error upgrading packages with winget: {e}")
