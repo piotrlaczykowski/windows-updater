@@ -94,3 +94,47 @@ def install_program(installer_path):
             print(f"Error installing Dell SupportAssist: {e}")
     else:
         print("Error: Installer not found.")
+        
+def winget_upgrade():
+    # Upgrade all installed packages using winget
+    try:
+        subprocess.run(["winget", "upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "-u", "--allow-reboot"], check=True,)
+        print("All installed packages upgraded successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error upgrading packages with winget: {e}")
+        
+def choco_upgrade():
+    try:
+        print("Checking for Choco updates...")
+        subprocess.run(["choco", "upgrade", "all", "-y"], check=True)
+        print("All Chocolatey packages upgraded successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error upgrading Chocolatey packages: {e}")
+        if not is_choco_installed():
+            print("Chocolatey (choco) is not installed. Installing it now...")
+            install_choco()
+            try:
+                subprocess.run(["choco", "upgrade", "all", "-y"], check=True)
+                print("All Chocolatey packages upgraded successfully.")
+            except subprocess.CalledProcessError as e:
+                print(f"Error upgrading Chocolatey packages: {e}")
+
+def windows_update():
+    try:
+        print("Checking for Windows updates...")
+
+        # Install the PSWindowsUpdate module if not already installed
+        ps_install_command = (
+            "Install-Module PSWindowsUpdate -Force -AllowClobber -Scope AllUsers; "
+            "Set-ExecutionPolicy Bypass -Scope Process -Force; "
+            "Import-Module PSWindowsUpdate -Force;"
+            "$serviceManager = New-Object -ComObject 'Microsoft.Update.ServiceManager';"
+            "$serviceManager.AddService2('7971f918-a847-4430-9279-4a52d1efe18d',7,'');"
+            "Install-WindowsUpdate -AcceptAll -AutoReboot -IgnoreUserInput;"
+        )
+
+        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", ps_install_command], check=True)
+
+        print("Windows updates checked and installed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error checking or installing Windows updates: {e}")

@@ -30,51 +30,15 @@ if __name__ == "__main__":
             # Update Winget
             # Check if the user needs to accept terms for using winget
             if update_choice == 2 or update_choice == 5:
-                # Upgrade all installed packages using winget
-                try:
-                    subprocess.run(["winget", "upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "-u", " --allow-reboot"], check=True,)
-                    print("All installed packages upgraded successfully.")
-                except subprocess.CalledProcessError as e:
-                    print(f"Error upgrading packages with winget: {e}")
+                winget_upgrade()
 
             # Check if Chocolatey (choco) is installed and perform the necessary actions
             if update_choice == 3 or update_choice == 5:
-                try:
-                    print("Checking for Choco updates...")
-                    subprocess.run(["choco", "upgrade", "all", "-y"], check=True)
-                    print("All Chocolatey packages upgraded successfully.")
-                except subprocess.CalledProcessError as e:
-                    print(f"Error upgrading Chocolatey packages: {e}")
-                    if not is_choco_installed():
-                        print("Chocolatey (choco) is not installed. Installing it now...")
-                        install_choco()
-                        try:
-                            subprocess.run(["choco", "upgrade", "all", "-y"], check=True)
-                            print("All Chocolatey packages upgraded successfully.")
-                        except subprocess.CalledProcessError as e:
-                            print(f"Error upgrading Chocolatey packages: {e}")
-
+                choco_upgrade()
 
             # Update Windows
             if update_choice == 4 or update_choice == 5:
-                try:
-                    print("Checking for Windows updates...")
-
-                    # Install the PSWindowsUpdate module if not already installed
-                    ps_install_command = (
-                        "Install-Module PSWindowsUpdate -Force -AllowClobber -Scope AllUsers; "
-                        "Set-ExecutionPolicy Bypass -Scope Process -Force; "
-                        "Import-Module PSWindowsUpdate -Force;"
-                        "$serviceManager = New-Object -ComObject 'Microsoft.Update.ServiceManager';"
-                        "$serviceManager.AddService2('7971f918-a847-4430-9279-4a52d1efe18d',7,'');"
-                        "Install-WindowsUpdate -AcceptAll -AutoReboot -IgnoreUserInput;"
-                    )
-
-                    subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", ps_install_command], check=True)
-
-                    print("Windows updates checked and installed successfully.")
-                except subprocess.CalledProcessError as e:
-                    print(f"Error checking or installing Windows updates: {e}")
+                windows_update()
 
             # End of the script
             print("Script execution completed.")
