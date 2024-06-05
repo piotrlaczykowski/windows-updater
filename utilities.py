@@ -3,6 +3,7 @@ import sys
 import ctypes
 import subprocess
 import winreg
+import requests
 
 # Function to display the update menu
 def display_update_menu():
@@ -73,3 +74,13 @@ def is_supportassist_installed():
             return True
     except FileNotFoundError:
         return False
+
+def download_installer(url, user_download_folder, installer_path):
+    response = requests.get(url, stream=True)
+    if response.status_code == 200:
+        if not os.path.exists(user_download_folder):
+            os.makedirs(user_download_folder)
+
+        with open(installer_path, 'wb') as installer_file:
+            for chunk in response.iter_content(chunk_size=1024):
+                installer_file.write(chunk)

@@ -15,33 +15,25 @@ if __name__ == "__main__":
             user_download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
             dell_support_assist_installer_filename = "SupportAssistInstaller.exe"
             support_assist_installer_path = os.path.join(user_download_folder, dell_support_assist_installer_filename)
-
+            mobo_manufacturer = wmi.WMI().Win32_ComputerSystem()[0].Manufacturer
             # Get the user's update choice
             update_choice = display_update_menu()
             # Update Dell SupportAssist
-            print(wmi.WMI().Win32_ComputerSystem()[0].Manufacturer)
-            if "Dell" in wmi.WMI().Win32_ComputerSystem()[0].Manufacturer and (update_choice == 1 or update_choice == 5) and is_supportassist_installed():
+            print(mobo_manufacturer)
+            if "Dell" in mobo_manufacturer and (update_choice == 1 or update_choice == 5) and is_supportassist_installed():
                 launch_dell_supportassist()
                 # Download the installer
                 if not is_supportassist_installed():
-                    response = requests.get(support_assist_download_url, stream=True)
-                    if response.status_code == 200:
-                        if not os.path.exists(user_download_folder):
-                            os.makedirs(user_download_folder)
-
-                        with open(support_assist_installer_path, 'wb') as installer_file:
-                            for chunk in response.iter_content(chunk_size=1024):
-                                installer_file.write(chunk)
-
-                        # Install Dell SupportAssist
-                        if os.path.exists(support_assist_installer_path):
-                            try:
-                                subprocess.run([support_assist_installer_path], check=True)
-                                print("Dell SupportAssist installed successfully.")
-                            except subprocess.CalledProcessError as e:
-                                print(f"Error installing Dell SupportAssist: {e}")
-                        else:
-                            print("Error: Installer not found.")
+                    download_installer(url=support_assist_download_url, user_download_folder=user_download_folder,installer_path=support_assist_installer_path)
+                    # Install Dell SupportAssist
+                    if os.path.exists(support_assist_installer_path):
+                        try:
+                            subprocess.run([support_assist_installer_path], check=True)
+                            print("Dell SupportAssist installed successfully.")
+                        except subprocess.CalledProcessError as e:
+                            print(f"Error installing Dell SupportAssist: {e}")
+                    else:
+                        print("Error: Installer not found.")
             # Update Winget
             # Check if the user needs to accept terms for using winget
             if update_choice == 2 or update_choice == 5:
