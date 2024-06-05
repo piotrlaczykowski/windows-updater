@@ -24,14 +24,16 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Build executables or extension modules from Python projects
-      uses: Nuitka/Nuitka-Action@v1.1
-      with:
-        nuitka-version: main
-        script-name: update-pc-script.py
-        onefile: true
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install --upgrade pyinstaller
+    - name: Compile to exe
+      run: |
+        pyinstaller --onefile update-pc-script.py
+
     - uses: actions/upload-artifact@v4
       with:
         name: update-pc-script-${{ github.run_number }}
-        path: build/update-pc-script.exe
+        path: dist/update-pc-script.exe
         compression-level: 0 # no compression
