@@ -1,6 +1,2 @@
-ctypes
-winreg
-sys
-subprocess
 wmi
 requests
