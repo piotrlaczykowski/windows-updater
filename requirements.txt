@@ -1,4 +1,3 @@
-os
 ctypes
 winreg
 sys
