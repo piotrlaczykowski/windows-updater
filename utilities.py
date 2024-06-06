@@ -2,7 +2,6 @@ import os
 import sys
 import ctypes
 import subprocess
-import winreg
 import requests
 import wmi
 
