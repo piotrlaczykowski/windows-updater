@@ -70,7 +70,7 @@ def launch_dell_support_assist():
 # Check if Dell SupportAssist is already installed
 def is_support_assist_installed():
     try:
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Dell\SupportAssistAgent", 0, winreg.KEY_READ) as key:
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Dell\SupportAssistAgent", 0, winreg.KEY_READ):
             return True
     except FileNotFoundError:
         return False
