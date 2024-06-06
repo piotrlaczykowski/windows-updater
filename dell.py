@@ -1,4 +1,5 @@
 import os
+import winreg
 from utilities import *
 # Define the URL to download Dell SupportAssist
 support_assist_download_url = "https://downloads.dell.com/serviceability/catalog/SupportAssistInstaller.exe"
