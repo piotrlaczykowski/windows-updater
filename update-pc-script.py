@@ -6,7 +6,7 @@ if __name__ == "__main__":
     if run_as_admin():
         try:
             update_choice = display_update_menu()
-            if "Dell" in mobo_manufacturer() and (update_choice == 1 or update_choice == 5)():
+            if (update_choice == 1 or update_choice == 5):
                 dell()
             # Update Winget
             # Check if the user needs to accept terms for using winget
