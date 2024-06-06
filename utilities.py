@@ -4,6 +4,7 @@ import ctypes
 import subprocess
 import winreg
 import requests
+import wmi
 
 # Function to display the update menu
 def display_update_menu():
@@ -19,6 +20,10 @@ def display_update_menu():
             return int(choice)
         else:
             print("Invalid choice. Please enter a valid option.")
+
+def mobo_manufacturer():
+    motherboard = wmi.WMI().Win32_ComputerSystem()[0].Manufacturer
+    return motherboard
 
 def run_as_admin():
     if ctypes.windll.shell32.IsUserAnAdmin():
@@ -52,28 +57,6 @@ def upgrade_choco_packages():
         print("All Chocolatey packages upgraded successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error upgrading Chocolatey packages: {e}")
-
-
-def launch_dell_support_assist():
-    try:
-        ps_command = (
-            "Get-AppxPackage | Where-Object {$_.Name -like 'DellSupportAssist'} | "
-            "Foreach-Object {"
-            "$packageName = $_.PackageFamilyName;"
-            "Start-Process shell:AppsFolder\\$packageName!App;"
-            "}"
-        )
-        subprocess.run(["powershell", "-Command", ps_command], check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error launching the UWP app: {e}")
-
-# Check if Dell SupportAssist is already installed
-def is_support_assist_installed():
-    try:
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Dell\SupportAssistAgent", 0, winreg.KEY_READ):
-            return True
-    except FileNotFoundError:
-        return False
 
 def download_installer(url, user_download_folder, installer_path):
     response = requests.get(url, stream=True)
