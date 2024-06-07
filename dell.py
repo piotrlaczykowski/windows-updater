@@ -14,7 +14,7 @@ support_assist_installer_path = os.path.join(user_download_folder, dell_support_
 def launch_dell_support_assist():
     try:
         ps_command = (
-            "Get-AppxPackage | Where-Object {$_.Name -like 'SupportAssist'} | "
+            "Get-AppxPackage | Where-Object {$_.Name -like '*SupportAssist*'} | "
             "Foreach-Object {"
             "$packageName = $_.PackageFamilyName;"
             "Start-Process shell:AppsFolder\\$packageName!App;"
@@ -31,11 +31,12 @@ def install_support_assist():
 
 # Check if Dell SupportAssist is already installed
 def check_and_launch_dell_support_assist():
-    try:
-        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Dell\SupportAssistAgent", 0, winreg.KEY_READ):
-            launch_dell_support_assist()
-    except FileNotFoundError:
-        install_support_assist()
+    if "Dell" in mobo_manufacturer():
+        try:
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Dell\SupportAssistAgent", 0, winreg.KEY_READ):
+                launch_dell_support_assist()
+        except FileNotFoundError:
+            install_support_assist()
 
 def dell():
     print(mobo_manufacturer())

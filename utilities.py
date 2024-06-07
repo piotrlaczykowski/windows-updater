@@ -67,6 +67,20 @@ def download_installer(url, user_download_folder, installer_path):
             for chunk in response.iter_content(chunk_size=1024):
                 installer_file.write(chunk)
 
+def unsecured_download_installer(url, user_download_folder, installer_path):
+    try:
+        response = requests.get(url, stream=True, verify=False)
+        if response.status_code == 200:
+            os.makedirs(user_download_folder, exist_ok=True)
+            with open(installer_path, 'wb') as installer_file:
+                for chunk in response.iter_content(chunk_size=1024):
+                    installer_file.write(chunk)
+            print(f"Downloaded installer to {installer_path}")
+        else:
+            print(f"Error downloading installer: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Request error: {e}")
+
 def install_program(installer_path):
     if os.path.exists(installer_path):
         try:
