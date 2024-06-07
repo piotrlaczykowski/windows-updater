@@ -4,7 +4,6 @@ import ctypes
 import subprocess
 import requests
 import wmi
-import zipfile
 
 # Function to display the update menu
 def display_update_menu():
@@ -20,12 +19,6 @@ def display_update_menu():
             return int(choice)
         else:
             print("Invalid choice. Please enter a valid option.")
-
-def unzip(file_name_to_unzip, unzip_destination):
-    with zipfile.ZipFile(file_name_to_unzip, 'r') as zip_ref:
-    # Perform operations on the ZIP file
-        zip_ref.extractall(unzip_destination)
-        zip_ref.close()
 
 def mobo_manufacturer():
     motherboard = wmi.WMI().Win32_ComputerSystem()[0].Manufacturer

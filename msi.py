@@ -1,6 +1,7 @@
 import os
 import subprocess
 import winreg
+import zipfile
 from utilities import *
 import glob
 # Define the URL to download MSI Center
@@ -27,6 +28,13 @@ def launch_msi_center():
         subprocess.run(["powershell", "-Command", ps_command], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error launching the UWP app: {e}")
+
+
+def unzip(file_name_to_unzip, unzip_destination):
+    with zipfile.ZipFile(file_name_to_unzip, 'r') as zip_ref:
+    # Perform operations on the ZIP file
+        zip_ref.extractall(unzip_destination)
+        zip_ref.close()
 
 def install_msi_center():
     download_installer(url=msi_center_download_url, user_download_folder=user_download_folder,installer_path=msi_center_installer_path)
