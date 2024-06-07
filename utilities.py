@@ -103,11 +103,9 @@ def choco_upgrade():
     if not is_choco_installed():
         print("Chocolatey (choco) is not installed. Installing it now...")
         install_choco()
-        try:
-            subprocess.run(["choco", "upgrade", "all", "-y"], check=True)
-            print("All Chocolatey packages upgraded successfully.")
-        except subprocess.CalledProcessError as e:
-            print(f"Error upgrading Chocolatey packages: {e}")
+        upgrade_choco_packages()
+    else:
+        upgrade_choco_packages()
 
 def windows_update():
     try:
