@@ -40,6 +40,6 @@ jobs:
         compression-level: 0 # no compression
     - uses: actions/upload-artifact@v4
       with:
-        name: update-pc-script-${{ github.run_number }}
+        name: update-pc-script-auto-${{ github.run_number }}
         path: dist/update-pc-script-auto.exe
         compression-level: 0 # no compression
