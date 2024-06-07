@@ -1,10 +1,11 @@
 import sys
 from utilities import *
 from dell import *
+from motherboard import *
 
 if __name__ == "__main__":
     if run_as_admin():
-        dell()
+        motherboard_launcher()
     # Update Winget
         winget_upgrade()
     # Check if Chocolatey (choco) is installed and perform the necessary actions

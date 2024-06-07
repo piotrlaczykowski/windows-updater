@@ -1,13 +1,13 @@
 import sys
 from utilities import *
-from dell import *
+from motherboard import *
 
 if __name__ == "__main__":
     if run_as_admin():
         try:
             update_choice = display_update_menu()
             if (update_choice == 1 or update_choice == 5):
-                dell()
+                motherboard_launcher()
             # Update Winget
             # Check if the user needs to accept terms for using winget
             if update_choice == 2 or update_choice == 5:

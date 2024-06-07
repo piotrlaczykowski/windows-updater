@@ -4,11 +4,12 @@ import ctypes
 import subprocess
 import requests
 import wmi
+import zipfile
 
 # Function to display the update menu
 def display_update_menu():
     print("Select an option to update:")
-    print("1. Dell Support Assist")
+    print("1. Launch/Install Motherboard Manufacturer Software")
     print("2. Winget Update")
     print("3. Choco Update")
     print("4. Windows Update")
@@ -19,6 +20,12 @@ def display_update_menu():
             return int(choice)
         else:
             print("Invalid choice. Please enter a valid option.")
+
+def unzip(file_name_to_unzip, unzip_destination):
+    with zipfile.ZipFile(file_name_to_unzip, 'r') as zip_ref:
+    # Perform operations on the ZIP file
+        zip_ref.extractall(unzip_destination)
+        zip_ref.close()
 
 def mobo_manufacturer():
     motherboard = wmi.WMI().Win32_ComputerSystem()[0].Manufacturer
@@ -94,7 +101,7 @@ def install_program(installer_path):
 def winget_upgrade():
     # Upgrade all installed packages using winget
     try:
-        subprocess.run(["winget", "upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "-u", "--allow-reboot"], check=True,)
+        subprocess.run(["winget", "upgrade", "--all", "--accept-source-agreements", "--accept-package-agreements", "--allow-reboot"], check=True,)
         print("All installed packages upgraded successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error upgrading packages with winget: {e}")
