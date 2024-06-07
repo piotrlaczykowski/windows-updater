@@ -37,8 +37,6 @@ def check_and_launch_dell_support_assist():
                 launch_dell_support_assist()
         except FileNotFoundError:
             install_support_assist()
-    else:
-        print("This is not a Dell PC")
 
 def dell():
     print(mobo_manufacturer())
