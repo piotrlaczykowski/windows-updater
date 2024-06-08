@@ -1,6 +1,6 @@
 import sys
 from utilities import *
-from dell import *
+from dell_support_assist import *
 from motherboard import *
 
 if __name__ == "__main__":

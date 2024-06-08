@@ -81,13 +81,13 @@ def unsecured_download_installer(url, user_download_folder, installer_path):
     except requests.exceptions.RequestException as e:
         print(f"Request error: {e}")
 
-def install_program(installer_path):
+def install_program(installer_path, program_name):
     if os.path.exists(installer_path):
         try:
             subprocess.run([installer_path], check=True)
-            print("Dell SupportAssist installed successfully.")
+            print(f"{program_name} installed successfully.")
         except subprocess.CalledProcessError as e:
-            print(f"Error installing Dell SupportAssist: {e}")
+            print(f"Error installing {program_name}: {e}")
     else:
         print("Error: Installer not found.")
         

@@ -10,7 +10,6 @@ msi_center_download_url = "https://download.msi.com/uti_exe/desktop/MSI-Center.z
 # Set the installer path to the specified download folder
 user_download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
 msi_center_installer_path = glob.glob(os.path.join(user_download_folder, 'MSI Center*.exe'))
-
 def is_msi_center_installed():
     cmd = 'powershell "Get-AppxPackage -AllUsers | Where-Object {$_.Name -like \'*MSICenter*\' -or $_.Name -like \'*MSIcenter*\' -or $_.Name -like \'*MSI center*\'}"'
     result = subprocess.run(cmd, capture_output=True, text=True, shell=True)
@@ -26,7 +25,7 @@ def install_msi_center():
     download_installer(url=msi_center_download_url, user_download_folder=user_download_folder,installer_path=msi_center_installer_path)
     # Install MSI Center
     unzip('MSI-Center.zip', user_download_folder)
-    install_program(msi_center_installer_path)
+    install_program(msi_center_installer_path, 'MSI Center')
     
 def launch_msi_center():
     try:
@@ -43,12 +42,11 @@ def launch_msi_center():
 
 # Check if MSI Center is already installed
 def check_and_launch_msi_center():
-    if "Micro-Star" in mobo_manufacturer():
-        try:
-            with is_msi_center_installed():
-                launch_msi_center()
-        except FileNotFoundError:
-            install_msi_center()
+    try:
+        with is_msi_center_installed():
+            launch_msi_center()
+    except FileNotFoundError:
+        install_msi_center()
 
 def msi():
     print(mobo_manufacturer())
