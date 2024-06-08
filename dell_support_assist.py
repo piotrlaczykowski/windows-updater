@@ -28,7 +28,7 @@ def launch_dell_support_assist():
 def install_support_assist():
     download_installer(url=support_assist_download_url, user_download_folder=user_download_folder,installer_path=support_assist_installer_path)
     # Install Dell SupportAssist
-    install_program(support_assist_installer_path)
+    install_program(support_assist_installer_path, "MSI Center")
 
 # Check if Dell SupportAssist is already installed
 def check_and_launch_dell_support_assist():
