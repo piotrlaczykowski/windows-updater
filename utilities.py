@@ -5,7 +5,6 @@ import subprocess
 import requests
 import wmi
 import zipfile
-import shutil
 
 # Function to display the update menu
 def display_update_menu():
