@@ -36,7 +36,7 @@ def install_msi_center():
 def launch_msi_center():
     try:
         ps_command = (
-            "Get-AppxPackage | Where-Object {$_.Name -like '*MSI Center*'} | "
+            "Get-AppxPackage | Where-Object {$_.Name -like '*MSICenter*'} | "
             "Foreach-Object {"
             "$packageName = $_.PackageFamilyName;"
             "Start-Process shell:AppsFolder\\$packageName!App;"
