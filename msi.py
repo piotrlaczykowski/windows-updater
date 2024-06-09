@@ -1,32 +1,38 @@
-import os
-import subprocess
-import winreg
-import zipfile
 from utilities import *
 import glob
+
 # Define the URL to download MSI Center
 msi_center_download_url = "https://download.msi.com/uti_exe/desktop/MSI-Center.zip"
-
+msi_center_assist_zip_filename = "MSI-Center.zip"
+msi_center_zip_path = os.path.join(user_download_folder(), msi_center_assist_zip_filename)
 # Set the installer path to the specified download folder
-user_download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
-msi_center_installer_path = glob.glob(os.path.join(user_download_folder, 'MSI Center*.exe'))
 def is_msi_center_installed():
     cmd = 'powershell "Get-AppxPackage -AllUsers | Where-Object {$_.Name -like \'*MSICenter*\' -or $_.Name -like \'*MSIcenter*\' -or $_.Name -like \'*MSI center*\'}"'
     result = subprocess.run(cmd, capture_output=True, text=True, shell=True)
     return 'MSICenter' in result.stdout or 'MSIcenter' in result.stdout or 'MSI center' in result.stdout
 
-def unzip(file_name_to_unzip, unzip_destination):
-    with zipfile.ZipFile(file_name_to_unzip, 'r') as zip_ref:
-    # Perform operations on the ZIP file
-        zip_ref.extractall(unzip_destination)
-        zip_ref.close()
-
 def install_msi_center():
-    download_installer(url=msi_center_download_url, user_download_folder=user_download_folder,installer_path=msi_center_installer_path)
-    # Install MSI Center
-    unzip('MSI-Center.zip', user_download_folder)
-    install_program(msi_center_installer_path, 'MSI Center')
-    
+    # Download and unzip the installer
+    download_installer(msi_center_download_url, user_download_folder(), msi_center_zip_path)
+    msi_unzip_folder = os.path.join(user_download_folder(), "MSI-Center")
+    unzip(msi_center_zip_path, msi_unzip_folder)
+
+    # Now that the .exe file has been unzipped, we can find its path
+    msi_center_exe = glob.glob(os.path.join(msi_unzip_folder, "MSI-Center*.exe"))[0]
+    if msi_center_exe:
+        program_name = "MSI Center"
+        if os.path.exists(msi_center_exe):
+            try:
+                subprocess.run([msi_center_exe], check=True)
+                print(f"{program_name} installed successfully.")
+            except subprocess.CalledProcessError as e:
+                print(f"Error installing {program_name}: {e}")
+        else:
+            print("Error: Installer not found.")
+    else:
+        print("No MSI Center installer found in the download folder.")
+
+
 def launch_msi_center():
     try:
         ps_command = (
@@ -40,13 +46,15 @@ def launch_msi_center():
     except subprocess.CalledProcessError as e:
         print(f"Error launching the UWP app: {e}")
 
+
 # Check if MSI Center is already installed
 def check_and_launch_msi_center():
-    try:
-        with is_msi_center_installed():
-            launch_msi_center()
-    except FileNotFoundError:
+    if is_msi_center_installed():
+        launch_msi_center()
+    if not is_msi_center_installed():
         install_msi_center()
+        launch_msi_center()
+
 
 def msi():
     print(mobo_manufacturer())

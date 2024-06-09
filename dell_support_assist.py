@@ -8,9 +8,8 @@ from motherboard import *
 support_assist_download_url = "https://downloads.dell.com/serviceability/catalog/SupportAssistInstaller.exe"
 
 # Set the installer path to the specified download folder
-user_download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
 dell_support_assist_installer_filename = "SupportAssistInstaller.exe"
-support_assist_installer_path = os.path.join(user_download_folder, dell_support_assist_installer_filename)
+support_assist_installer_path = os.path.join(user_download_folder(), dell_support_assist_installer_filename)
 
 def launch_dell_support_assist():
     try:
@@ -26,7 +25,7 @@ def launch_dell_support_assist():
         print(f"Error launching the UWP app: {e}")
 
 def install_support_assist():
-    download_installer(url=support_assist_download_url, user_download_folder=user_download_folder,installer_path=support_assist_installer_path)
+    download_installer(url=support_assist_download_url, user_download_folder=user_download_folder(),installer_path=support_assist_installer_path)
     # Install Dell SupportAssist
     install_program(support_assist_installer_path, "Dell Support Assist")
 

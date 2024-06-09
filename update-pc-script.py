@@ -1,12 +1,10 @@
-import sys
-from utilities import *
 from motherboard import *
 
 if __name__ == "__main__":
     if run_as_admin():
         try:
             update_choice = display_update_menu()
-            if (update_choice == 1 or update_choice == 5):
+            if update_choice == 1 or update_choice == 5:
                 motherboard_launcher()
             # Update Winget
             # Check if the user needs to accept terms for using winget
@@ -28,4 +26,4 @@ if __name__ == "__main__":
             print(f"An error occurred: {str(e)}")
             input("Press Enter to exit...")
     else:
-        sys.exit(0)  # Exit if user declines admin privileges
+        sys.exit(0)
