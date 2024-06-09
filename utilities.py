@@ -4,11 +4,12 @@ import ctypes
 import subprocess
 import requests
 import wmi
+import zipfile
 
 # Function to display the update menu
 def display_update_menu():
     print("Select an option to update:")
-    print("1. Dell Support Assist")
+    print("1. Launch/Install Motherboard Manufacturer Software")
     print("2. Winget Update")
     print("3. Choco Update")
     print("4. Windows Update")
@@ -19,6 +20,14 @@ def display_update_menu():
             return int(choice)
         else:
             print("Invalid choice. Please enter a valid option.")
+            
+def user_download_folder():
+    user_download_folder = os.path.join(os.path.expanduser("~"), "Downloads")
+    return user_download_folder
+
+def unzip(file_name_to_unzip, unzip_destination):
+    with zipfile.ZipFile(file_name_to_unzip,"r") as zip_ref:
+        zip_ref.extractall(unzip_destination)
 
 def mobo_manufacturer():
     motherboard = wmi.WMI().Win32_ComputerSystem()[0].Manufacturer
@@ -81,13 +90,13 @@ def unsecured_download_installer(url, user_download_folder, installer_path):
     except requests.exceptions.RequestException as e:
         print(f"Request error: {e}")
 
-def install_program(installer_path):
+def install_program(installer_path, program_name):
     if os.path.exists(installer_path):
         try:
             subprocess.run([installer_path], check=True)
-            print("Dell SupportAssist installed successfully.")
+            print(f"{program_name} installed successfully.")
         except subprocess.CalledProcessError as e:
-            print(f"Error installing Dell SupportAssist: {e}")
+            print(f"Error installing {program_name}: {e}")
     else:
         print("Error: Installer not found.")
         
