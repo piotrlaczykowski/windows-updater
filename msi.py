@@ -18,12 +18,12 @@ def install_msi_center():
     unzip(msi_center_zip_path, msi_unzip_folder)
 
     # Now that the .exe file has been unzipped, we can find its path
-    msi_center_exe = glob.glob(os.path.join(msi_unzip_folder, "MSI-Center*.exe"))[0]
+    msi_center_exe = glob.glob(os.path.join(msi_unzip_folder, "MSI Center*.exe"))[0]
     if msi_center_exe:
         program_name = "MSI Center"
         if os.path.exists(msi_center_exe):
             try:
-                subprocess.run([msi_center_exe], check=True)
+                subprocess.run([msi_center_exe, "/SILENT"], check=True)
                 print(f"{program_name} installed successfully.")
             except subprocess.CalledProcessError as e:
                 print(f"Error installing {program_name}: {e}")
