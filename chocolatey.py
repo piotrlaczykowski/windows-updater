@@ -2,10 +2,16 @@ from utilities import *
 # Check if Chocolatey (choco) is installed
 def is_choco_installed():
     try:
-        subprocess.run(["choco", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+        subprocess.run(["choco", "--version"],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        check=True)
         return True
     except subprocess.CalledProcessError:
         return False
+    except FileNotFoundError:
+        return False
+
 
 # Function to install Chocolatey (choco)
 def install_choco():
@@ -27,6 +33,7 @@ def choco_upgrade():
     if not is_choco_installed():
         print("Chocolatey (choco) is not installed. Installing it now...")
         install_choco()
-        upgrade_choco_packages()
+        if is_choco_installed():
+            upgrade_choco_packages()
     else:
         upgrade_choco_packages()
