@@ -1,5 +1,6 @@
 from motherboard import *
 from utilities import *
+from chocolatey import *
 
 if __name__ == "__main__":
     if run_as_admin():
