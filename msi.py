@@ -1,3 +1,9 @@
+import os
+import sys
+import ctypes
+import subprocess
+import requests
+import wmi
 from utilities import *
 import glob
 
