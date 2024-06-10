@@ -1,4 +1,4 @@
-from dell_support_assist import *
+from dell_support_assist import dell
 from msi import *
 from utilities import *
 

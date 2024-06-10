@@ -42,30 +42,6 @@ def run_as_admin():
     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
     return False
 
-# Check if Chocolatey (choco) is installed
-def is_choco_installed():
-    try:
-        subprocess.run(["choco", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
-        return True
-    except subprocess.CalledProcessError:
-        return False
-
-# Function to install Chocolatey (choco)
-def install_choco():
-    try:
-        subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-Command", "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"], check=True)
-        print("Chocolatey (choco) installed successfully.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing Chocolatey (choco): {e}")
-
-# Function to upgrade packages using Chocolatey (choco)
-def upgrade_choco_packages():
-    try:
-        subprocess.run(["choco", "upgrade", "all", "-y"], check=True)
-        print("All Chocolatey packages upgraded successfully.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error upgrading Chocolatey packages: {e}")
-
 def download_installer(url, user_download_folder, installer_path):
     response = requests.get(url, stream=True)
     if response.status_code == 200:
@@ -107,14 +83,6 @@ def winget_upgrade():
         print("All installed packages upgraded successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error upgrading packages with winget: {e}")
-        
-def choco_upgrade():
-    if not is_choco_installed():
-        print("Chocolatey (choco) is not installed. Installing it now...")
-        install_choco()
-        upgrade_choco_packages()
-    else:
-        upgrade_choco_packages()
 
 def windows_update():
     try:
