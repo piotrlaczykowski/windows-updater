@@ -1,6 +1,8 @@
 from motherboard import *
 from utilities import *
 from chocolatey import *
+from winget import *
+from windows_update import *
 
 if __name__ == "__main__":
     if run_as_admin():
