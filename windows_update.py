@@ -6,6 +6,7 @@ def windows_update():
 
         # Install the PSWindowsUpdate module if not already installed
         ps_install_command = (
+            "Install-PackageProvider -Name NuGet -Force;"
             "Install-Module PSWindowsUpdate -Force -AllowClobber -Scope AllUsers; "
             "Set-ExecutionPolicy Bypass -Scope Process -Force; "
             "Import-Module PSWindowsUpdate -Force;"
